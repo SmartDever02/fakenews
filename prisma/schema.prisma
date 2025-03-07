@@ -1,0 +1,17 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model logs {
+  id                 Int      @id @default(autoincrement())
+  article            String   @db.Text
+  articles_to_review String[] @db.Text
+  predictions        Float[]
+  timestamp          DateTime @default(now())
+}

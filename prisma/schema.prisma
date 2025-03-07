@@ -9,12 +9,13 @@ datasource db {
 }
 
 model logs {
-  id                 Int      @id @default(autoincrement())
-  article            String   @db.Text
-  articles_to_review String[] @db.Text
-  predictions        Float[]
-  paraphrased_score  Float    @default(9999)
-  is_first_try_valid Boolean  @default(true)
-  is_adjusted        Boolean  @default(false)
-  timestamp          DateTime @default(now())
+  id                    Int      @id @default(autoincrement())
+  article               String   @db.Text
+  articles_to_review    String[] @db.Text
+  predictions           Float[]
+  paraphrased_score     Float    @default(9999)
+  is_first_try_valid    Boolean  @default(true)
+  is_adjusted           Boolean  @default(false)
+  is_valid_score_format Boolean  @default(true)
+  timestamp             DateTime @default(now())
 }

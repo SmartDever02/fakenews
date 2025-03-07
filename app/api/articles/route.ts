@@ -32,6 +32,15 @@ export async function POST(req: Request) {
       is_adjusted,
     } = parsedData.data
 
+    let is_valid_score_format = true
+
+    const p1 = predictions.at(0) || 0
+    const p2 = predictions.at(1) || 0
+
+    if ((p1 > 0.5 && p2 > 0.5) || (p1 <= 0.5 && p2 <= 0.5)) {
+      is_valid_score_format = false
+    }
+
     const newPayload = await prisma.logs.create({
       data: {
         article,
@@ -40,6 +49,7 @@ export async function POST(req: Request) {
         paraphrased_score,
         is_first_try_valid: is_valid_first_try,
         is_adjusted,
+        is_valid_score_format,
       },
     })
 

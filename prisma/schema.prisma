@@ -13,5 +13,8 @@ model logs {
   article            String   @db.Text
   articles_to_review String[] @db.Text
   predictions        Float[]
+  paraphrased_score  Float    @default(9999)
+  is_first_try_valid Boolean  @default(true)
+  is_adjusted        Boolean  @default(false)
   timestamp          DateTime @default(now())
 }

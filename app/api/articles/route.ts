@@ -5,7 +5,10 @@ import prisma from '@/lib/prisma'
 const Schema = z.object({
   article: z.string(),
   articles_to_review: z.array(z.string()),
-  predictions: z.array(z.number())
+  predictions: z.array(z.number()),
+  paraphrased_score: z.number(),
+  is_first_try_valid: z.boolean(),
+  is_adjusted: z.boolean(),
 })
 
 export async function POST(req: Request) {
@@ -20,13 +23,23 @@ export async function POST(req: Request) {
       )
     }
 
-    const { article, articles_to_review, predictions } = parsedData.data
+    const {
+      article,
+      articles_to_review,
+      predictions,
+      paraphrased_score,
+      is_first_try_valid,
+      is_adjusted,
+    } = parsedData.data
 
     const newPayload = await prisma.logs.create({
       data: {
         article,
         articles_to_review,
         predictions,
+        paraphrased_score,
+        is_first_try_valid,
+        is_adjusted,
       },
     })
 

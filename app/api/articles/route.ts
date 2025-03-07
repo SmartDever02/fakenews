@@ -7,7 +7,7 @@ const Schema = z.object({
   articles_to_review: z.array(z.string()),
   predictions: z.array(z.number()),
   paraphrased_score: z.number(),
-  is_first_try_valid: z.boolean(),
+  is_valid_first_try: z.boolean(),
   is_adjusted: z.boolean(),
 })
 
@@ -28,7 +28,7 @@ export async function POST(req: Request) {
       articles_to_review,
       predictions,
       paraphrased_score,
-      is_first_try_valid,
+      is_valid_first_try,
       is_adjusted,
     } = parsedData.data
 
@@ -38,7 +38,7 @@ export async function POST(req: Request) {
         articles_to_review,
         predictions,
         paraphrased_score,
-        is_first_try_valid,
+        is_first_try_valid: is_valid_first_try,
         is_adjusted,
       },
     })

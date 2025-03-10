@@ -12,7 +12,7 @@ export default async function Page() {
       take: 250,
     })
     const count = data.filter(
-      (elem) => elem.is_first_try_valid === false
+      (elem) => elem.is_first_try_valid === false || elem.is_adjusted
     ).length
     arr.push(count)
   }

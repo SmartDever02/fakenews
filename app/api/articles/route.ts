@@ -3,10 +3,13 @@ import { z } from 'zod'
 import prisma from '@/lib/prisma'
 
 const Schema = z.object({
+  uid: z.number(),
   article: z.string(),
   articles_to_review: z.array(z.string()),
   predictions: z.array(z.number()),
+  original_predictions: z.array(z.number()).optional(),
   paraphrased_score: z.number(),
+  fake_score: z.number().optional(),
   is_valid_first_try: z.boolean(),
   is_adjusted: z.boolean(),
 })
@@ -24,20 +27,26 @@ export async function POST(req: Request) {
     }
 
     const {
+      uid,
       article,
       articles_to_review,
+      original_predictions,
       predictions,
       paraphrased_score,
+      fake_score,
       is_valid_first_try,
       is_adjusted,
     } = parsedData.data
 
     const newPayload = await prisma.logs.create({
       data: {
+        uid,
         article,
         articles_to_review,
+        original_predictions,
         predictions,
         paraphrased_score,
+        fake_score,
         is_first_try_valid: is_valid_first_try,
         is_adjusted,
       },

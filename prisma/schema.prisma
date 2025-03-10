@@ -16,6 +16,5 @@ model logs {
   paraphrased_score     Float    @default(9999)
   is_first_try_valid    Boolean  @default(true)
   is_adjusted           Boolean  @default(false)
-  is_valid_score_format Boolean  @default(true)
   timestamp             DateTime @default(now())
 }

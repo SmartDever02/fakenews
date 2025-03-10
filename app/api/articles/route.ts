@@ -41,7 +41,7 @@ export async function POST(req: Request) {
     const newPayload = await prisma.logs.create({
       data: {
         uid,
-        article: is_valid_first_try ? "" : article,
+        article: article,
         articles_to_review: is_valid_first_try ? ["", ""] : articles_to_review,
         original_predictions,
         predictions,

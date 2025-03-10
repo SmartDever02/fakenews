@@ -29,3 +29,9 @@ model metagraph {
   incentive Float
   emission  Float
 }
+
+model synth {
+  uid           Int     @id @default(autoincrement())
+  sigma         Float[]
+  spread_factor Float[]
+}

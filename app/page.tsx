@@ -5,7 +5,7 @@ export const dynamic = 'force-dynamic'
 export default async function Page() {
   const UIDArray = [234, 227, 43, 44, 42]
 
-  let arr = []
+  const arr: number[] = []
   for (let i = 0; i < UIDArray.length; i++) {
     const data = await prisma.logs.findMany({
       where: { uid: UIDArray[i] },

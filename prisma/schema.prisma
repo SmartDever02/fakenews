@@ -21,3 +21,11 @@ model logs {
   is_adjusted          Boolean  @default(false)
   timestamp            DateTime @default(now())
 }
+
+model metagraph {
+  uid       Int   @id
+  trust     Float
+  stake     Float
+  incentive Float
+  emission  Float
+}

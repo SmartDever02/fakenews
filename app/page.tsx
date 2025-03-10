@@ -1,24 +1,9 @@
-import prisma from '@/lib/prisma'
-import Link from 'next/link'
+// import prisma from '@/lib/prisma'
 
 export const dynamic = 'force-dynamic'
 
 export default async function Page() {
-  const articles = await prisma.logs.findMany()
+  const UIDArray = [234, 227, 43, 44, 42]
 
-  return (
-    <main className="p-20">
-      <ul className="space-y-2 max-w-[800px] mx-auto">
-        {articles.map((article) => (
-          <li key={article.id}>
-            <Link href={`/article/${article.id}`} className='hover:underline'>
-              <p className="border rounded-md border-white/10 p-3 hover:border-white/30">
-                {article.id}: {article.article.slice(0, 100)}...
-              </p>
-            </Link>
-          </li>
-        ))}
-      </ul>
-    </main>
-  )
+  return <main className="p-20">{JSON.stringify(UIDArray)}</main>
 }

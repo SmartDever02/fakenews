@@ -19,6 +19,14 @@ export default async function Page({ params }: { params: { id: number } }) {
     orderBy: { _count: { id: 'desc' } },
   })
 
+  const skippedLogs = await prisma.skip_logs.groupBy({
+    by: ['uid'],
+    where: {
+      epoch_number: Number(params.id),
+    },
+    _count: { id: true },
+  })
+
   return (
     <main className="p-20">
       <h2 className="text-xl text-center font-semibold pb-20">
@@ -34,12 +42,13 @@ export default async function Page({ params }: { params: { id: number } }) {
           <ul>
             {logsPerMiner.map(({ uid, _count }) => (
               <li key={uid}>
-                Miner: {uid}, Logs: {_count.id} (Skipped logs:{' '}
+                Miner: {uid}, Synapses: {_count.id} (Invalid Synapses:{' '}
                 {
                   invalidLogsPerMiner.find((item) => item.uid === uid)?._count
                     ?.id
                 }
-                )
+                , Skipped Synapses:{' '}
+                {skippedLogs.find((item) => item.uid === uid)?._count?.id || 0})
               </li>
             ))}
           </ul>

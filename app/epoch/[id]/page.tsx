@@ -1,5 +1,4 @@
 import prisma from '@/lib/prisma'
-import { notFound } from 'next/navigation'
 
 export default async function Page({ params }: { params: { id: number } }) {
   const logsPerMiner = await prisma.logs.groupBy({
@@ -35,22 +34,12 @@ export default async function Page({ params }: { params: { id: number } }) {
           <ul>
             {logsPerMiner.map(({ uid, _count }) => (
               <li key={uid}>
-                Miner: {uid}, Logs: {_count.id}
-              </li>
-            ))}
-          </ul>
-        </>
-      )}
-
-      {invalidLogsPerMiner.length > 0 && (
-        <>
-          <h3 className="text-xl text-center font-semibold pb-10">
-            Invalid logs per miner
-          </h3>
-          <ul>
-            {invalidLogsPerMiner.map(({ uid, _count }) => (
-              <li key={uid}>
-                Miner: {uid}, Invalid logs: {_count.id}
+                Miner: {uid}, Logs: {_count.id} (Skipped logs:{' '}
+                {
+                  invalidLogsPerMiner.find((item) => item.uid === uid)?._count
+                    ?.id
+                }
+                )
               </li>
             ))}
           </ul>

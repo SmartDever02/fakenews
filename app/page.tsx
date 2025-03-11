@@ -1,28 +1,24 @@
 import prisma from '@/lib/prisma'
+import Link from 'next/link'
 
-export const dynamic = 'force-dynamic'
+export const revalidate = 300
 
 export default async function Page() {
-  const UIDArray = [234, 227, 43, 44, 42]
-
-  const arr: number[] = []
-  for (let i = 0; i < UIDArray.length; i++) {
-    const data = await prisma.logs.findMany({
-      where: { uid: UIDArray[i] },
-      take: 250,
-    })
-    const count = data.filter(
-      (elem) => elem.is_first_try_valid === false || elem.is_adjusted
-    ).length
-    arr.push(count)
-  }
+  const epoches = await prisma.logs.groupBy({
+    by: 'epoch_number',
+    orderBy: {
+      epoch_number: 'desc',
+    },
+  })
 
   return (
     <main className="p-20">
       <ul>
-        {UIDArray.map((uid, index) => (
-          <li key={uid}>
-            UID: {uid} Invalid count: {arr[index]}
+        {epoches.map((epoch) => (
+          <li key={epoch.epoch_number}>
+            <Link className='underline' href={`/epoch/${epoch.epoch_number}`}>
+              {epoch.epoch_number}
+            </Link>
           </li>
         ))}
       </ul>

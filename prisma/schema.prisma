@@ -23,6 +23,13 @@ model logs {
   timestamp            DateTime @default(now())
 }
 
+model skip_logs {
+  id           Int      @id @default(autoincrement())
+  uid          Int
+  epoch_number Int
+  timestamp    DateTime @default(now())
+}
+
 model metagraph {
   uid       Int   @id
   trust     Float

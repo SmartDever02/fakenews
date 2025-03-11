@@ -19,6 +19,7 @@ model logs {
   predictions          Float[]
   is_first_try_valid   Boolean  @default(true)
   is_adjusted          Boolean  @default(false)
+  epoch_number         Int      @default(0)
   timestamp            DateTime @default(now())
 }
 

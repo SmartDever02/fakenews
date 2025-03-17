@@ -44,7 +44,8 @@ export async function POST(req: Request) {
       data: {
         uid,
         article: article,
-        articles_to_review: is_valid_first_try ? ['', ''] : articles_to_review,
+        // articles_to_review: is_valid_first_try ? ['', ''] : articles_to_review,
+        articles_to_review: articles_to_review,
         original_predictions,
         predictions,
         paraphrased_score,

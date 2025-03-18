@@ -18,6 +18,7 @@ model logs {
   original_predictions Float[]  @default([])
   ensemble_predictions Float[]  @default([])
   is_ensemble_all_same Boolean  @default(true)
+  ensemble_percentage  Float    @default(0)
   predictions          Float[]
   is_first_try_valid   Boolean  @default(true)
   is_adjusted          Boolean  @default(false)

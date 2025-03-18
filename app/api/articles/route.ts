@@ -15,7 +15,7 @@ const Schema = z.object({
   is_valid_first_try: z.boolean(),
   is_adjusted: z.boolean(),
   epoch_number: z.number().optional(),
-
+  ensemble_percentage: z.number().optional()
 })
 
 export async function POST(req: Request) {
@@ -42,7 +42,8 @@ export async function POST(req: Request) {
       is_adjusted,
       epoch_number,
       ensemble_predictions,
-      is_ensemble_all_same
+      is_ensemble_all_same,
+      ensemble_percentage
     } = parsedData.data
 
     const newPayload = await prisma.logs.create({
@@ -60,6 +61,7 @@ export async function POST(req: Request) {
         epoch_number,
         ensemble_predictions,
         is_ensemble_all_same,
+        ensemble_percentage
       },
     })
 

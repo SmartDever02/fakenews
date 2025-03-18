@@ -8,11 +8,14 @@ const Schema = z.object({
   articles_to_review: z.array(z.string()),
   predictions: z.array(z.number()),
   original_predictions: z.array(z.number()).optional(),
+  ensemble_predictions: z.array(z.number()).optional(),
+  is_ensemble_all_same: z.boolean().optional(),
   paraphrased_score: z.number(),
   fake_score: z.number().optional(),
   is_valid_first_try: z.boolean(),
   is_adjusted: z.boolean(),
   epoch_number: z.number().optional(),
+
 })
 
 export async function POST(req: Request) {
@@ -38,6 +41,8 @@ export async function POST(req: Request) {
       is_valid_first_try,
       is_adjusted,
       epoch_number,
+      ensemble_predictions,
+      is_ensemble_all_same
     } = parsedData.data
 
     const newPayload = await prisma.logs.create({
@@ -53,6 +58,8 @@ export async function POST(req: Request) {
         is_first_try_valid: is_valid_first_try,
         is_adjusted,
         epoch_number,
+        ensemble_predictions,
+        is_ensemble_all_same,
       },
     })
 

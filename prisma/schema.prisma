@@ -16,6 +16,8 @@ model logs {
   paraphrased_score    Float    @default(9999)
   fake_score           Float    @default(100)
   original_predictions Float[]  @default([])
+  ensemble_predictions Float[]  @default([])
+  is_ensemble_all_same Boolean  @default(true)
   predictions          Float[]
   is_first_try_valid   Boolean  @default(true)
   is_adjusted          Boolean  @default(false)

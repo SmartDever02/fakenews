@@ -19,6 +19,7 @@ model logs {
   predictions          Float[]
   epoch_number         Int      @default(0)
   timestamp            DateTime @default(now())
+  token_length         Int      @default(0)
 }
 
 model skip_logs {

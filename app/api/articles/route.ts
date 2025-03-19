@@ -9,11 +9,6 @@ const Schema = z.object({
   predictions: z.array(z.number()),
   original_predictions: z.array(z.number()).optional(),
   ensemble_predictions: z.array(z.number()).optional(),
-  is_ensemble_all_same: z.boolean().optional(),
-  paraphrased_score: z.number(),
-  fake_score: z.number().optional(),
-  is_valid_first_try: z.boolean(),
-  is_adjusted: z.boolean(),
   epoch_number: z.number().optional(),
   ensemble_percentage: z.number().optional()
 })
@@ -36,13 +31,8 @@ export async function POST(req: Request) {
       articles_to_review,
       original_predictions,
       predictions,
-      paraphrased_score,
-      fake_score,
-      is_valid_first_try,
-      is_adjusted,
       epoch_number,
       ensemble_predictions,
-      is_ensemble_all_same,
       ensemble_percentage
     } = parsedData.data
 
@@ -50,17 +40,11 @@ export async function POST(req: Request) {
       data: {
         uid,
         article: article,
-        // articles_to_review: is_valid_first_try ? ['', ''] : articles_to_review,
         articles_to_review: articles_to_review,
         original_predictions,
         predictions,
-        paraphrased_score,
-        fake_score,
-        is_first_try_valid: is_valid_first_try,
-        is_adjusted,
         epoch_number,
         ensemble_predictions,
-        is_ensemble_all_same,
         ensemble_percentage
       },
     })

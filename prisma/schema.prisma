@@ -13,15 +13,10 @@ model logs {
   uid                  Int      @default(0)
   article              String   @db.Text
   articles_to_review   String[] @db.Text
-  paraphrased_score    Float    @default(9999)
-  fake_score           Float    @default(100)
   original_predictions Float[]  @default([])
   ensemble_predictions Float[]  @default([])
-  is_ensemble_all_same Boolean  @default(true)
   ensemble_percentage  Float    @default(0)
   predictions          Float[]
-  is_first_try_valid   Boolean  @default(true)
-  is_adjusted          Boolean  @default(false)
   epoch_number         Int      @default(0)
   timestamp            DateTime @default(now())
 }

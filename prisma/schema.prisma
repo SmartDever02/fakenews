@@ -20,6 +20,7 @@ model logs {
   epoch_number         Int      @default(0)
   timestamp            DateTime @default(now())
   token_length         Int      @default(0)
+  processing_time      Int      @default(0)
 }
 
 model skip_logs {

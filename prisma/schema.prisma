@@ -21,6 +21,7 @@ model logs {
   timestamp            DateTime @default(now())
   token_length         Int      @default(0)
   processing_time      Int      @default(0)
+  validator_uid        Int      @default(-1)
 }
 
 model skip_logs {

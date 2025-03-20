@@ -13,6 +13,7 @@ const Schema = z.object({
   ensemble_percentage: z.number().optional(),
   token_length: z.number().optional(),
   processing_time: z.number().optional(),
+  validator_uid: z.number().optional(),
 })
 
 export async function POST(req: Request) {
@@ -38,6 +39,7 @@ export async function POST(req: Request) {
       ensemble_percentage,
       token_length,
       processing_time,
+      validator_uid,
     } = parsedData.data
 
     const newPayload = await prisma.logs.create({
@@ -52,6 +54,7 @@ export async function POST(req: Request) {
         ensemble_percentage,
         token_length,
         processing_time,
+        validator_uid,
       },
     })
 

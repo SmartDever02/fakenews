@@ -7,6 +7,7 @@ const Schema = z.object({
   article: z.string(),
   articles_to_review: z.array(z.string()),
   predictions: z.array(z.number()),
+  predictions_v2: z.array(z.number()).optional(),
   original_predictions: z.array(z.number()).optional(),
   ensemble_predictions: z.array(z.number()).optional(),
   epoch_number: z.number().optional(),
@@ -40,6 +41,7 @@ export async function POST(req: Request) {
       token_length,
       processing_time,
       validator_uid,
+      predictions_v2,
     } = parsedData.data
 
     const newPayload = await prisma.logs.create({
@@ -55,6 +57,7 @@ export async function POST(req: Request) {
         token_length,
         processing_time,
         validator_uid,
+        predictions_v2,
       },
     })
 

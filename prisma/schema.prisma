@@ -17,6 +17,7 @@ model logs {
   ensemble_predictions Float[]  @default([])
   ensemble_percentage  Float    @default(0)
   predictions          Float[]
+  predictions_v2       Float[]  @default([])
   epoch_number         Int      @default(0)
   timestamp            DateTime @default(now())
   token_length         Int      @default(0)

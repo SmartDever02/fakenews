@@ -13,14 +13,10 @@ model logs {
   uid                  Int      @default(0)
   article              String   @db.Text
   articles_to_review   String[] @db.Text
-  original_predictions Float[]  @default([])
-  ensemble_predictions Float[]  @default([])
-  ensemble_percentage  Float    @default(0)
   predictions          Float[]
   predictions_v2       Float[]  @default([])
   epoch_number         Int      @default(0)
   timestamp            DateTime @default(now())
-  token_length         Int      @default(0)
   processing_time      Int      @default(0)
   validator_uid        Int      @default(-1)
 }

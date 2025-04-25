@@ -8,9 +8,9 @@ import { NextResponse } from 'next/server'
 
 export async function POST(
   _request: Request,
-  { params }: { params: { uid: number } }
+  { params }: { params: { uid: string } }
 ) {
-  const uid = params.uid
+  const uid = Number(params.uid)
 
   if (!uid) {
     return NextResponse.json(
@@ -76,7 +76,7 @@ export async function POST(
 
 export async function DELETE(
   request: Request,
-  { params }: { params: { uid: number } }
+  { params }: { params: { uid: string } }
 ) {
   const body = await request.json()
   const level = body?.level
@@ -88,7 +88,7 @@ export async function DELETE(
     )
   }
 
-  const uid = params.uid
+  const uid = Number(params.uid)
 
   try {
     const pool = await prisma.vidaio_hotkey_pool.findUniqueOrThrow({

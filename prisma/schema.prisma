@@ -10,6 +10,7 @@ datasource db {
 
 model vidaio_hotkey_pool {
   id       Int   @id @default(autoincrement())
+  nodeID   Int?   @default(0)
   level    Int   @unique
   minerIDs Int[] // List of hotkey addresses (PostgreSQL required for array)
   volume   Int

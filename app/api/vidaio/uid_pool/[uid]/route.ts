@@ -7,10 +7,13 @@ import { NextResponse } from 'next/server'
 // ) {}
 
 export async function POST(
-  _request: Request,
+  request: Request,
   { params }: { params: { uid: string } }
 ) {
-  const uid = Number(params.uid)
+  const uid = params.uid
+  const req = await request.json()
+
+  const nodeId = req?.nodeId || 0
 
   if (!uid) {
     return NextResponse.json(
@@ -21,6 +24,9 @@ export async function POST(
 
   try {
     const maxLevel = await prisma.vidaio_hotkey_pool.aggregate({
+      where: {
+        nodeID: nodeId,
+      },
       _max: {
         level: true,
       },
@@ -30,6 +36,7 @@ export async function POST(
 
     const pool = await prisma.vidaio_hotkey_pool.findFirst({
       where: {
+        nodeID: nodeId,
         volume: {
           lt: Number(process.env.MAX_POOL_SIZE || 10),
         },
@@ -46,6 +53,7 @@ export async function POST(
           level: biggestLevel + 1,
           volume: 1,
           minerIDs: [uid],
+          nodeID: nodeId,
         },
       })
 
@@ -80,6 +88,7 @@ export async function DELETE(
 ) {
   const body = await request.json()
   const level = body?.level
+  const nodeId = body?.nodeId || 0
 
   if (!level || !params?.uid) {
     return NextResponse.json(
@@ -88,14 +97,17 @@ export async function DELETE(
     )
   }
 
-  const uid = Number(params.uid)
+  const uid = params.uid
 
   try {
     const pool = await prisma.vidaio_hotkey_pool.findUniqueOrThrow({
       where: {
-        level,
         minerIDs: {
           has: uid,
+        },
+        nodeID_level: {
+          level: level,
+          nodeID: nodeId,
         },
       },
     })
@@ -107,12 +119,13 @@ export async function DELETE(
       hotkeys.splice(index, 1) // removes only the first occurrence
     }
 
-    console.log('Hotkeys to update: ', hotkeys, hotkeys.length)
-
     // update pool
     const updatedPool = await prisma.vidaio_hotkey_pool.update({
       where: {
-        level,
+        nodeID_level: {
+          level,
+          nodeID: nodeId,
+        },
       },
       data: {
         minerIDs: hotkeys,

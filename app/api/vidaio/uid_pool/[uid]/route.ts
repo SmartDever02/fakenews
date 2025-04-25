@@ -8,11 +8,11 @@ import { NextResponse } from 'next/server'
 
 export async function POST(
   _request: Request,
-  { params }: { params: { hotkey_address: string } }
+  { params }: { params: { uid: number } }
 ) {
-  const hotkey = params.hotkey_address
+  const uid = params.uid
 
-  if (!hotkey) {
+  if (!uid) {
     return NextResponse.json(
       { error: 'Hotkey address is not given' },
       { status: 400 }
@@ -45,7 +45,7 @@ export async function POST(
         data: {
           level: biggestLevel + 1,
           volume: 1,
-          hotkeyAddresses: [hotkey],
+          minerIDs: [uid],
         },
       })
 
@@ -53,14 +53,14 @@ export async function POST(
     }
 
     // update pool
-    const hotkeys = pool.hotkeyAddresses
-    hotkeys.push(hotkey)
+    const hotkeys = pool.minerIDs
+    hotkeys.push(uid)
     const updatedPool = await prisma.vidaio_hotkey_pool.update({
       where: {
         id: pool.id,
       },
       data: {
-        hotkeyAddresses: hotkeys,
+        minerIDs: hotkeys,
         volume: hotkeys.length,
       },
     })
@@ -76,33 +76,33 @@ export async function POST(
 
 export async function DELETE(
   request: Request,
-  { params }: { params: { hotkey_address: string } }
+  { params }: { params: { uid: number } }
 ) {
   const body = await request.json()
   const level = body?.level
 
-  if (!level || !params?.hotkey_address) {
+  if (!level || !params?.uid) {
     return NextResponse.json(
       { error: 'One of hotkey address, level, id is not given' },
       { status: 400 }
     )
   }
 
-  const hotkey = params.hotkey_address
+  const uid = params.uid
 
   try {
     const pool = await prisma.vidaio_hotkey_pool.findUniqueOrThrow({
       where: {
         level,
-        hotkeyAddresses: {
-          has: hotkey,
+        minerIDs: {
+          has: uid,
         },
       },
     })
 
-    const hotkeys = pool.hotkeyAddresses
+    const hotkeys = pool.minerIDs
 
-    const index = hotkeys.indexOf(hotkey)
+    const index = hotkeys.indexOf(uid)
     if (index !== -1) {
       hotkeys.splice(index, 1) // removes only the first occurrence
     }
@@ -115,7 +115,7 @@ export async function DELETE(
         level,
       },
       data: {
-        hotkeyAddresses: hotkeys,
+        minerIDs: hotkeys,
         volume: hotkeys.length,
       },
     })

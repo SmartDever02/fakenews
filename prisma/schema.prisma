@@ -8,36 +8,9 @@ datasource db {
   directUrl = env("DIRECT_URL")
 }
 
-model logs {
-  id                   Int      @id @default(autoincrement())
-  uid                  Int      @default(0)
-  article              String   @db.Text
-  articles_to_review   String[] @db.Text
-  predictions          Float[]
-  predictions_v2       Float[]  @default([])
-  epoch_number         Int      @default(0)
-  timestamp            DateTime @default(now())
-  processing_time      Int      @default(0)
-  validator_uid        Int      @default(-1)
-}
-
-model skip_logs {
-  id           Int      @id @default(autoincrement())
-  uid          Int
-  epoch_number Int
-  timestamp    DateTime @default(now())
-}
-
-model metagraph {
-  uid       Int   @id
-  trust     Float
-  stake     Float
-  incentive Float
-  emission  Float
-}
-
-model synth {
-  uid           Int     @id @default(autoincrement())
-  sigma         Float[]
-  spread_factor Float[]
+model vidaio_hotkey_pool {
+  id              Int      @id @default(autoincrement())
+  level           Int      @unique
+  hotkeyAddresses String[] // List of hotkey addresses (PostgreSQL required for array)
+  volume          Int
 }
